@@ -28,4 +28,8 @@ done
 
 echo "NX detected. Flashing..."
 sudo "${FLASH}"
+if [ $? -ne 0 ]; then
+  echo "Error (nx-flash:03): NX flashing failure"
+  exit 1
+fi
 echo "NX flashing finished"
