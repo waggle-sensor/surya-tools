@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+VERSION="1.0.0"
+
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
   then echo "Error (rpi-prepare:01) Please run as root"
@@ -14,6 +16,8 @@ SDDEV="/dev/mmcblk1"
 print_help() {
   echo """
 usage: rpi_prepare.sh [-f <rpi-pxe-setup.img path>] [-k <ssh key>] [-n <ip address>] [-d <sd device>]
+
+Version: {$VERSION}
 
 Flash a NX and shutdown after registration.
 
@@ -58,7 +62,7 @@ if [ ! -b "${SDDEV}" ]; then
 fi
 
 echo "-------------------------"
-echo "RPi Flashing Recipe:"
+echo "RPi Flashing Recipe [${VERSION}]:"
 echo -e " Flash:\t\t${FLASH}"
 echo -e " SSH Key:\t${KEY}"
 echo -e " NX IP:\t\t${NODE}"
