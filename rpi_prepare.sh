@@ -8,7 +8,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-FLASH="/home/waggle/Desktop/surya/rpi/rpi-pxe-setup-1.0.0.img"
+FLASH="/home/waggle/Desktop/surya/images/rpi/rpi-pxe-setup.img"
 KEY="/home/waggle/.ssh/ecdsa-surya-sage-waggle"
 NODE="raspberrypi.lan"
 SDDEV="/dev/mmcblk1"

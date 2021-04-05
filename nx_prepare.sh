@@ -8,7 +8,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-FLASH="/home/waggle/Desktop/surya/mfi_waggle_photon/nvmflash.sh"
+FLASH="/home/waggle/Desktop/surya/images/nx/mfi_waggle_photon/nvmflash.sh"
 KEY="/home/waggle/.ssh/ecdsa-surya-sage-waggle"
 NODE="ws-nxcore-prereg.lan"
 
