@@ -2,6 +2,7 @@
 
 KEY=${1:-""}
 NODE=${2:-""}
+TTY=${3:-""}
 
 if [ ! -f "${KEY}" ]; then
   echo "Error (nx-halt:01): unable to locate SSH key file [${KEY}]"
@@ -13,9 +14,14 @@ if [ -z "${NODE}" ]; then
   exit 1
 fi
 
+if [ -z "${TTY}" ]; then
+  echo "Error (nx-halt:03): invalid Node Serial TTY provided";
+  exit 1
+fi
+
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
-  then echo "Error (nx-halt:03) Please run as root"
+  then echo "Error (nx-halt:04) Please run as root"
   exit 1
 fi
 
@@ -32,7 +38,7 @@ for i in {1..30}; do
 done
 
 if [ -z "${FOUND}" ]; then
-  echo "Error (nx-halt:04): unable to communicate to the NX"
+  echo "Error (nx-halt:05): unable to communicate to the NX"
   exit 1
 fi
 
@@ -55,15 +61,15 @@ for i in {1..10}; do
   ssh -q root@${NODE} -i ${KEY} -o "StrictHostKeyChecking no" -f -x \
     "shutdown -h now"
   if [ $? -ne 0 ]; then
-    echo "WARNING (nx-halt:05): system shutdown request error"
+    echo "WARNING (nx-halt:06): system shutdown request error"
   fi
 
   echo "Shutting down NX, please wait..."
   echo
   # wait for the system to shutdown
-  timeout 30s grep --line-buffered -m1 "CPU1: shutdown" < /dev/ttyUSB0
+  timeout 30s grep --line-buffered -m1 "CPU1: shutdown" < ${TTY}
   if [ $? -ne 0 ]; then
-    echo "WARNING (nx-halt:06): system did not shutdown safely"
+    echo "WARNING (nx-halt:07): system did not shutdown safely"
   else
     SD_SUCCESS=1
     break
@@ -71,6 +77,6 @@ for i in {1..10}; do
 done
 
 if [ -z "${SD_SUCCESS}" ]; then
-  echo "WARNING (nx-halt:07): unable to gracefully shutdown"
+  echo "WARNING (nx-halt:08): unable to gracefully shutdown"
 fi
 echo "Shutdown complete"

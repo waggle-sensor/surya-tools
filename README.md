@@ -19,7 +19,7 @@ To flash with default `nvmflash.sh` file, SSH key file paths and node IP address
 To specific alternative `nvmflash.sh`, SSH key file paths and/or node IP address:
 
 ```
-./nx_prepare.sh -f <nvmflash.sh file path> -k <SSH key file path> -n <IP address>
+./nx_prepare.sh -f <nvmflash.sh file path> -k <SSH key file path> -n <IP address> -t <TTY>
 ```
 
 ### Visual Indicators
@@ -42,6 +42,7 @@ NX Flashing Recipe:
  Flash:		/home/jswantek/workspace/custom_builds/hostname03/mfi_waggle_photon/nvmflash.sh
  SSH Key:	/root/ecdsa-surya-sage-waggle
  NX IP:		ws-nxcore-prereg.lan
+ NX TTY:  /dev/ttyUSB0
 -------------------------
 Waiting for NX...
  Apply power, hold down reset pin for 10 seconds, then release.

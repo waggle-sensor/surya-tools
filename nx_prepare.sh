@@ -11,6 +11,7 @@ fi
 FLASH="/home/waggle/Desktop/surya/images/nx/mfi_waggle_photon/nvmflash.sh"
 KEY="/home/waggle/.ssh/ecdsa-surya-sage-waggle"
 NODE="ws-nxcore-prereg.lan"
+TTY="/dev/ttyUSB0"
 
 print_help() {
   echo """
@@ -23,17 +24,20 @@ Flash a NX and shutdown after registration.
   -f : (optional) path to the Waggle flash script [default: ${FLASH}]
   -k : (optional) path to SSH key to communicate with the NX node during the process [default: ${KEY}]]
   -n : (optional) NX Node IP address [default: ${NODE}]
+  -t : (optional) NX Serial TTY [default: ${TTY}]
   -? : print this help menu
 """
 }
 
-while getopts "f:k:n:?" opt; do
+while getopts "f:k:n:t:?" opt; do
   case $opt in
     f) FLASH=$(realpath $OPTARG)
       ;;
     k) KEY=$(realpath $OPTARG)
       ;;
     n) NODE=$OPTARG
+      ;;
+    t) TTY=$OPTARG
       ;;
     ?|*)
       print_help
@@ -52,11 +56,17 @@ if [ ! -f "${KEY}" ]; then
   exit 1
 fi
 
+if [ ! -c "${TTY}" ]; then
+  echo "Error (nx-prepare:04): unable to locate TTY device [${TTY}]"
+  exit 1
+fi
+
 echo "-------------------------"
 echo "NX Flashing Recipe [${VERSION}]:"
 echo -e " Flash:\t\t${FLASH}"
 echo -e " SSH Key:\t${KEY}"
 echo -e " NX IP:\t\t${NODE}"
+echo -e " NX TTY:\t${TTY}"
 echo "-------------------------"
 
 ./_helper_scripts/nx/nx_flash.sh ${FLASH}
@@ -73,7 +83,7 @@ echo "-------------------------"
 
 sleep 3s
 
-./_helper_scripts/nx/nx_halt.sh ${KEY} ${NODE}
+./_helper_scripts/nx/nx_halt.sh ${KEY} ${NODE} ${TTY}
 echo "-- (3/3) ----------------"
 echo "NX shutdown COMPLETE."
 echo " You may remove power."
