@@ -11,7 +11,7 @@ fi
 FLASH="/home/waggle/Desktop/surya/images/rpi/rpi-pxe-setup.img"
 KEY="/home/waggle/.ssh/ecdsa-surya-sage-waggle"
 NODE="raspberrypi.lan"
-SDDEV="/dev/mmcblk1"
+SDDEV="/dev/sdc"
 
 print_help() {
   echo """
