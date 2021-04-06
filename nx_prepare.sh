@@ -2,6 +2,15 @@
 
 VERSION="1.0.0"
 
+function cleanup()
+{
+  echo
+  echo "<< Press <ENTER> to exit >>"
+  read
+}
+
+trap cleanup EXIT
+
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
   then echo "Error (nx-prepare:01) Please run as root"
@@ -46,6 +55,14 @@ while getopts "f:k:n:t:?" opt; do
   esac
 done
 
+echo "-------------------------"
+echo "NX Flashing Recipe [${VERSION}]:"
+echo -e " Flash:\t\t${FLASH}"
+echo -e " SSH Key:\t${KEY}"
+echo -e " NX IP:\t\t${NODE}"
+echo -e " NX TTY:\t${TTY}"
+echo "-------------------------"
+
 if [ ! -f "${FLASH}" ]; then
   echo "Error (nx-prepare:02): unable to locate flash file [${FLASH}]"
   exit 1
@@ -60,14 +77,6 @@ if [ ! -c "${TTY}" ]; then
   echo "Error (nx-prepare:04): unable to locate TTY device [${TTY}]"
   exit 1
 fi
-
-echo "-------------------------"
-echo "NX Flashing Recipe [${VERSION}]:"
-echo -e " Flash:\t\t${FLASH}"
-echo -e " SSH Key:\t${KEY}"
-echo -e " NX IP:\t\t${NODE}"
-echo -e " NX TTY:\t${TTY}"
-echo "-------------------------"
 
 ./_helper_scripts/nx/nx_flash.sh ${FLASH}
 echo "-- (1/3) ----------------"

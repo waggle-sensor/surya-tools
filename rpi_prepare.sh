@@ -2,6 +2,15 @@
 
 VERSION="1.0.0"
 
+function cleanup()
+{
+  echo
+  echo "<< Press <ENTER> to exit >>"
+  read
+}
+
+trap cleanup EXIT
+
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
   then echo "Error (rpi-prepare:01) Please run as root"
@@ -46,6 +55,14 @@ while getopts "f:k:n:d:?" opt; do
   esac
 done
 
+echo "-------------------------"
+echo "RPi Flashing Recipe [${VERSION}]:"
+echo -e " Flash:\t\t${FLASH}"
+echo -e " SSH Key:\t${KEY}"
+echo -e " NX IP:\t\t${NODE}"
+echo -e " SD Dev:\t${SDDEV}"
+echo "-------------------------"
+
 if [ ! -f "${FLASH}" ]; then
   echo "Error (rpi-prepare:02): unable to locate flash file [${FLASH}]"
   exit 1
@@ -60,14 +77,6 @@ if [ ! -b "${SDDEV}" ]; then
   echo "Error (rpi-prepare:04): unable to locate SD device [${SDDEV}]"
   exit 1
 fi
-
-echo "-------------------------"
-echo "RPi Flashing Recipe [${VERSION}]:"
-echo -e " Flash:\t\t${FLASH}"
-echo -e " SSH Key:\t${KEY}"
-echo -e " NX IP:\t\t${NODE}"
-echo -e " SD Dev:\t${SDDEV}"
-echo "-------------------------"
 
 ./_helper_scripts/rpi/rpi_burn.sh ${FLASH} ${SDDEV}
 echo "-- (1/3) ----------------"
