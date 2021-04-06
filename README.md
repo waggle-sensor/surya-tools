@@ -4,6 +4,25 @@ Included here are helper scripts for preparing a Wild Sage node in a factory
 environment.  This includes scripts to prepare the individual compute units
 (ex. NX and Raspberry Pi). Below you will find instructions on script usage.
 
+## Desktop Launchers
+
+To simplify the script launching there are 2 Ubuntu based (i.e. XFCe) desktop
+launchers: `NX_Prep.desktop` and `SD_Card_Prep.desktop`.  These two files
+provided are examples and the `Exec=` line can be modified to pass different
+parameters to the core scripts (details below).
+
+Instructions:
+1. Copy the `NX_Prep.desktop` and `SD_Card_Prep.desktop` scripts to `~/Desktop`
+2. Make the `NX_Prep.desktop` and `SD_Card_Prep.desktop` files executable.
+
+_Note_: To remove the need to enter the `root` password on the machine the following
+change can be made to the `visudo`:
+
+```
+# Allow user to execute sudo without password
+<user> ALL=(ALL) NOPASSWD:ALL
+```
+
 ## NX Prepare Script Overview
 
 This script will take a NVidia NX (on a Connect Photon carrier board) and
