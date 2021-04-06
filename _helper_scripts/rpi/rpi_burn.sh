@@ -15,11 +15,15 @@ fi
 
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
-  then echo "Error (flash:02) Please run as root"
+  then echo "Error (rpi-burn:03) Please run as root"
   exit 1
 fi
 
 echo "Burning image [$FLASH] to SD card [$SDDEV]..."
 dd if=${FLASH} of=${SDDEV} status=progress bs=4M
+if [ $? -ne 0 ]; then
+  echo "Error (rpi-flash:04): RPI SD burn failure"
+  exit 1
+fi
 echo "Burning image finished"
 echo " You may safely remove the SD card now."
