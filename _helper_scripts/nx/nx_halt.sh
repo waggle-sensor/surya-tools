@@ -2,7 +2,7 @@
 
 KEY=${1:-""}
 NODE=${2:-""}
-TTY=${3:-""}
+export TTY=${3:-""}
 
 if [ ! -f "${KEY}" ]; then
   echo "Error (nx-halt:01): unable to locate SSH key file [${KEY}]"
@@ -24,6 +24,9 @@ if [ "$EUID" -ne 0 ]
   then echo "Error (nx-halt:04) Please run as root"
   exit 1
 fi
+
+# ensure the tty is setup for the right speed, etc.
+stty -F $TTY 115200 brkint -icrnl -imaxbel -opost -onlcr -isig -icanon -echo min 100 time 2
 
 # make sure we have a connection to the NX
 FOUND=
@@ -53,7 +56,7 @@ sleep 2s
 
 # attempt to shutdown the NX gracefully
 SD_SUCCESS=
-for i in {1..10}; do
+for i in {1..3}; do
   echo "Executing NX shutdown..."
   echo
 
@@ -67,7 +70,14 @@ for i in {1..10}; do
   echo "Shutting down NX, please wait..."
   echo
   # wait for the system to shutdown
-  timeout 30s grep --line-buffered -m1 "CPU1: shutdown" < ${TTY}
+  timeout 30s bash -c -- '''
+  while IFS= read -r line; do
+    if echo $line | grep -m1 -E "CPU[[:digit:]]+: shutdown"; then
+      echo "Proper shutdown detected"
+      break
+    fi
+  done < $TTY
+'''
   if [ $? -ne 0 ]; then
     echo "WARNING (nx-halt:07): system did not shutdown safely"
   else
