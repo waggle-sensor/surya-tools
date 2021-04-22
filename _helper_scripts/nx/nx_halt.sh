@@ -47,6 +47,11 @@ fi
 
 ssh-keygen -R "${NODE}"
 
+# get the node's ID before shutdown
+nodeid=$(ssh -q root@${NODE} -i ${KEY} -o "StrictHostKeyChecking no" -x \
+  'cat /etc/waggle/node-id')
+nodeid_short=${nodeid: -3}
+
 # disable all LEDs and blink RED for shutdown (sleep for visibility)
 ssh -q root@${NODE} -i ${KEY} -o "StrictHostKeyChecking no" -x \
   "echo '0' > /sys/class/leds/blue/brightness;" \
@@ -90,3 +95,5 @@ if [ -z "${SD_SUCCESS}" ]; then
   echo "WARNING (nx-halt:08): unable to gracefully shutdown"
 fi
 echo "Shutdown complete"
+echo -e " - Node ID:\t\t$nodeid"
+echo -e " - Node ID (short):\t$nodeid_short"
