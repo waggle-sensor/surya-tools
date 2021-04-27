@@ -4,12 +4,12 @@ KEY=${1:-""}
 NODE=${2:-""}
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (rpi-eeprom:01): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (rpi-eeprom:01): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ -z "${NODE}" ]; then
-  echo "Error (rpi-eeprom:02): invalid Node IP address provided";
+  echo "ERROR (rpi-eeprom:02): invalid Node IP address provided";
   exit 1
 fi
 

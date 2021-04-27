@@ -3,13 +3,13 @@
 FLASH=${1:-""}
 
 if [ ! -f "${FLASH}" ]; then
-  echo "Error (nx-flash:01): unable to locate flash file [${FLASH}]"
+  echo "ERROR (nx-flash:01): unable to locate flash file [${FLASH}]"
   exit 1
 fi
 
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
-  then echo "Error (nx-flash:02) Please run as root"
+  then echo "ERROR (nx-flash:02) Please run as root"
   exit 1
 fi
 
@@ -29,7 +29,7 @@ done
 echo "NX detected. Flashing..."
 sudo "${FLASH}"
 if [ $? -ne 0 ]; then
-  echo "Error (nx-flash:03): NX flashing failure"
+  echo "ERROR (nx-flash:03): NX flashing failure"
   exit 1
 fi
 echo "NX flashing finished"

@@ -4,12 +4,12 @@ KEY=${1:-""}
 NODE=${2:-""}
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (nx-online:01): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (nx-online:01): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ -z "${NODE}" ]; then
-  echo "Error (nx-online:02): invalid Node IP address provided";
+  echo "ERROR (nx-online:02): invalid Node IP address provided";
   exit 1
 fi
 

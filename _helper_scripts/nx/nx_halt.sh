@@ -5,23 +5,23 @@ NODE=${2:-""}
 export TTY=${3:-""}
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (nx-halt:01): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (nx-halt:01): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ -z "${NODE}" ]; then
-  echo "Error (nx-halt:02): invalid Node IP address provided";
+  echo "ERROR (nx-halt:02): invalid Node IP address provided";
   exit 1
 fi
 
 if [ -z "${TTY}" ]; then
-  echo "Error (nx-halt:03): invalid Node Serial TTY provided";
+  echo "ERROR (nx-halt:03): invalid Node Serial TTY provided";
   exit 1
 fi
 
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
-  then echo "Error (nx-halt:04) Please run as root"
+  then echo "ERROR (nx-halt:04) Please run as root"
   exit 1
 fi
 
@@ -41,7 +41,7 @@ for i in {1..30}; do
 done
 
 if [ -z "${FOUND}" ]; then
-  echo "Error (nx-halt:05): unable to communicate to the NX"
+  echo "ERROR (nx-halt:05): unable to communicate to the NX"
   exit 1
 fi
 

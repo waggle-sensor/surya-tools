@@ -5,12 +5,12 @@ NODE=${2:-""}
 SENSOR=${3:-"bme680"}
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (rpi-bme:01): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (rpi-bme:01): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ -z "${NODE}" ]; then
-  echo "Error (rpi-bme:02): invalid RPi IP address provided";
+  echo "ERROR (rpi-bme:02): invalid RPi IP address provided";
   exit 1
 fi
 
@@ -27,7 +27,7 @@ for i in {1..30}; do
 done
 
 if [ -z "${FOUND}" ]; then
-  echo "Error (rpi-bme:03): unable to communicate to the RPi"
+  echo "ERROR (rpi-bme:03): unable to communicate to the RPi"
   exit 1
 fi
 
@@ -50,7 +50,7 @@ echo "Executing BME Pressure Sensor Test"
 echo
 
 if ! ssh pi@${NODE} -i ${KEY} -o "StrictHostKeyChecking no" -x "cat $NAME | grep $SENSOR"; then
-  echo "Error (rpi-bme:04): pressure sensor [$SENSOR] not found"
+  echo "ERROR (rpi-bme:04): pressure sensor [$SENSOR] not found"
   exit 1
 else
   echo "Pressure sensor [$SENSOR] found"
@@ -58,7 +58,7 @@ fi
 
 for test in "${TESTS[@]}"; do
   if ! ssh pi@${NODE} -i ${KEY} -o "StrictHostKeyChecking no" -x "ls $test"; then
-    echo "Error (rpi-bme:05): pressure sensor value [$test] not found"
+    echo "ERROR (rpi-bme:05): pressure sensor value [$test] not found"
     exit 1
   else
     echo "Pressure sensor [$SENSOR] value [$test] found"

@@ -13,7 +13,7 @@ trap cleanup EXIT
 
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
-  then echo "Error (nx-prepare:01) Please run as root"
+  then echo "ERROR (nx-prepare:01) Please run as root"
   exit
 fi
 
@@ -64,17 +64,17 @@ echo -e " NX TTY:\t${TTY}"
 echo "-------------------------"
 
 if [ ! -f "${FLASH}" ]; then
-  echo "Error (nx-prepare:02): unable to locate flash file [${FLASH}]"
+  echo "ERROR (nx-prepare:02): unable to locate flash file [${FLASH}]"
   exit 1
 fi
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (nx-prepare:03): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (nx-prepare:03): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ ! -c "${TTY}" ]; then
-  echo "Error (nx-prepare:04): unable to locate TTY device [${TTY}]"
+  echo "ERROR (nx-prepare:04): unable to locate TTY device [${TTY}]"
   exit 1
 fi
 
@@ -89,11 +89,11 @@ while true; do
   read -p $'Enter VSN:\t' ENTRY1
   read -p $'Re-enter VSN:\t' ENTRY2
   if [ -z "$ENTRY1" ]; then
-    echo "Error (nx-prepare:05): Input VSN must NOT be empty. TRY AGAIN"
+    echo "ERROR (nx-prepare:05): Input VSN must NOT be empty. TRY AGAIN"
     continue
   fi
   if [ "$ENTRY1" != "$ENTRY2" ]; then
-    echo "Error (nx-prepare:06): Input VSN does NOT match. TRY AGAIN"
+    echo "ERROR (nx-prepare:06): Input VSN does NOT match. TRY AGAIN"
   else
     break
   fi

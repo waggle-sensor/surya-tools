@@ -13,7 +13,7 @@ trap cleanup EXIT
 
 # make sure this script is executed as root
 if [ "$EUID" -ne 0 ]
-  then echo "Error (rpi-prepare:01) Please run as root"
+  then echo "ERROR (rpi-prepare:01) Please run as root"
   exit
 fi
 
@@ -64,17 +64,17 @@ echo -e " SD Dev:\t${SDDEV}"
 echo "-------------------------"
 
 if [ ! -f "${FLASH}" ]; then
-  echo "Error (rpi-prepare:02): unable to locate flash file [${FLASH}]"
+  echo "ERROR (rpi-prepare:02): unable to locate flash file [${FLASH}]"
   exit 1
 fi
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (rpi-prepare:03): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (rpi-prepare:03): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ ! -b "${SDDEV}" ]; then
-  echo "Error (rpi-prepare:04): unable to locate SD device [${SDDEV}]"
+  echo "ERROR (rpi-prepare:04): unable to locate SD device [${SDDEV}]"
   exit 1
 fi
 

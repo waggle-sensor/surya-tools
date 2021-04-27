@@ -5,17 +5,17 @@ NODE=${2:-""}
 VSN=${3:-""}
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (nx-vsn:01): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (nx-vsn:01): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ -z "${NODE}" ]; then
-  echo "Error (nx-vsn:02): invalid Node IP address provided";
+  echo "ERROR (nx-vsn:02): invalid Node IP address provided";
   exit 1
 fi
 
 if [ -z "${VSN}" ]; then
-  echo "Error (nx-vsn:03): invalid VSN provided";
+  echo "ERROR (nx-vsn:03): invalid VSN provided";
   exit 1
 fi
 
@@ -32,7 +32,7 @@ for i in {1..30}; do
 done
 
 if [ -z "${FOUND}" ]; then
-  echo "Error (nx-vsn:05): unable to communicate to the NX"
+  echo "ERROR (nx-vsn:05): unable to communicate to the NX"
   exit 1
 fi
 

@@ -4,12 +4,12 @@ KEY=${1:-""}
 NODE=${2:-""}
 
 if [ ! -f "${KEY}" ]; then
-  echo "Error (rpi-halt:01): unable to locate SSH key file [${KEY}]"
+  echo "ERROR (rpi-halt:01): unable to locate SSH key file [${KEY}]"
   exit 1
 fi
 
 if [ -z "${NODE}" ]; then
-  echo "Error (rpi-halt:02): invalid RPi IP address provided";
+  echo "ERROR (rpi-halt:02): invalid RPi IP address provided";
   exit 1
 fi
 
@@ -26,7 +26,7 @@ for i in {1..30}; do
 done
 
 if [ -z "${FOUND}" ]; then
-  echo "Error (rpi-halt:03): unable to communicate to the RPi"
+  echo "ERROR (rpi-halt:03): unable to communicate to the RPi"
   exit 1
 fi
 
