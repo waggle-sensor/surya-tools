@@ -78,22 +78,52 @@ if [ ! -c "${TTY}" ]; then
   exit 1
 fi
 
+echo "-- (1/5) ----------------"
+echo "Enter System VSN"
+echo "-------------------------"
+
+ENTRY1=
+ENTRY2=
+while true; do
+  echo
+  read -p $'Enter VSN:\t' ENTRY1
+  read -p $'Re-enter VSN:\t' ENTRY2
+  if [ -z "$ENTRY1" ]; then
+    echo "Error (nx-prepare:05): Input VSN must NOT be empty. TRY AGAIN"
+    continue
+  fi
+  if [ "$ENTRY1" != "$ENTRY2" ]; then
+    echo "Error (nx-prepare:06): Input VSN does NOT match. TRY AGAIN"
+  else
+    break
+  fi
+done
+echo "Accepted VSN [$ENTRY1]"
+echo
+
 ./_helper_scripts/nx/nx_flash.sh ${FLASH}
-echo "-- (1/3) ----------------"
+echo "-- (2/5) ----------------"
 echo "NX Flashing COMPLETE!"
 echo "-------------------------"
 
 sleep 3s
 
 ./_helper_scripts/nx/nx_online.sh ${KEY} ${NODE}
-echo "-- (2/3) ----------------"
+echo "-- (3/5) ----------------"
 echo "NX registration COMPLETE!"
 echo "-------------------------"
 
 sleep 3s
 
+./_helper_scripts/nx/nx_vsn.sh ${KEY} ${NODE} ${ENTRY1}
+echo "-- (4/5) ----------------"
+echo "NX VSN Program COMPLETE!"
+echo "-------------------------"
+
+sleep 3s
+
 ./_helper_scripts/nx/nx_halt.sh ${KEY} ${NODE} ${TTY}
-echo "-- (3/3) ----------------"
+echo "-- (5/5) ----------------"
 echo "NX shutdown COMPLETE."
 echo " You may remove power."
 echo "-------------------------"
