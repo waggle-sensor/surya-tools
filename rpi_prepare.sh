@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-VERSION="1.0.2"
+VERSION="1.0.3"
 
 function cleanup()
 {
@@ -79,7 +79,7 @@ if [ ! -b "${SDDEV}" ]; then
 fi
 
 ./_helper_scripts/rpi/rpi_burn.sh ${FLASH} ${SDDEV}
-echo "-- (1/3) ----------------"
+echo "-- (1/4) ----------------"
 echo "RPi Flashing COMPLETE!"
 echo "-------------------------"
 
@@ -89,14 +89,19 @@ echo "  Press <ENTER> when done..."
 read
 
 ./_helper_scripts/rpi/rpi_eeprom.sh ${KEY} ${NODE}
-echo "-- (2/3) ----------------"
+echo "-- (2/4) ----------------"
 echo "RPi EEPROM Prep COMPLETE!"
+echo "-------------------------"
+
+./_helper_scripts/rpi/rpi_bme.sh ${KEY} ${NODE}
+echo "-- (3/4) ----------------"
+echo "RPi BME680 Test COMPLETE!"
 echo "-------------------------"
 
 sleep 3s
 
 ./_helper_scripts/rpi/rpi_halt.sh ${KEY} ${NODE}
-echo "-- (3/3) ----------------"
+echo "-- (4/4) ----------------"
 echo "RPi shutdown COMPLETE."
 echo " You may remove power."
 echo "-------------------------"

@@ -34,7 +34,7 @@ ssh-keygen -R "${NODE}"
 
 # attempt to shutdown the RPi gracefully
 for i in {1..10}; do
-  echo "Executing NX shutdown..."
+  echo "Executing RPi shutdown..."
   echo
 
   # execute shutdown in background
